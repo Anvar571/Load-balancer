@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "",
-    "prod":"",
-    "format":"",
+    "start:dev": "Developmend_NODE=dev ts-node src/server.ts",
+    "start:prod":"Production_NODE=prod tsc -w && dist/server.js",
+    "lint": "eslint . --ext .ts",
+    "lint-fix": "eslint . --ext .ts --fix",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,html,md}\"",
     "":""
   },
   "keywords": [],
