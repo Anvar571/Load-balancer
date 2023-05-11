@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid"
-import HttpError from "errors/HttpError"
+import HttpError from "../errors/HttpError"
 
 export interface IUserCtrl {
     getAllUser(): Promise<IUser[]>;
@@ -10,7 +10,7 @@ export interface IUserCtrl {
 }
 
 export interface IUser {
-    id: string,
+    id?: string,
     username: string,
     age: number,
     hobbies: []

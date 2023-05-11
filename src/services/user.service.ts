@@ -1,6 +1,7 @@
 import {validate} from "uuid"
-import HttpError from "errors/HttpError";
+import HttpError from "../errors/HttpError";
 import { IUser, IUserCtrl } from "../controller/UserController";
+import { dataValid } from "../utils/utils";
 
 class UserService {
     constructor(private userCtrl: IUserCtrl){}
@@ -37,9 +38,5 @@ class UserService {
         return this.userCtrl.update(id, data);
     }
 }   
-
-function dataValid(data: IUser){
-    return true
-}
 
 export default UserService

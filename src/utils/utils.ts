@@ -1,7 +1,7 @@
 import http, { IncomingMessage } from "http"
 import cluster from "cluster"
 import { IUser } from "../controller/UserController"
-import HttpError from "errors/HttpError"
+import HttpError from "../errors/HttpError"
 
 const API_URL = ""
 const API_ID_URL = ""
@@ -34,7 +34,7 @@ function dataValid(data: IUser) {
 }
 
 function processStatus() {
-    return process.env.CRUD_API_MODE === "cluster"
+    return process.env.CLUSTER_MODE === "cluster"
         ? cluster.isPrimary
             ? "Primary" : "Worker" : "Server"
 }
