@@ -1,10 +1,15 @@
 import http, { IncomingMessage } from "http"
 import cluster from "cluster"
-import { IUser } from "../controller/UserController"
+import { IUser } from "../types/type"
 import HttpError from "../errors/HttpError"
 
 const API_URL = ""
 const API_ID_URL = ""
+
+const getId =(url: string) => {
+    const id = url.match(/\/api\/users\/([\w-]+)/);
+    return id ? id[1]: null
+}
 
 async function getBodyData(req: IncomingMessage) {
     try {
@@ -39,4 +44,4 @@ function processStatus() {
             ? "Primary" : "Worker" : "Server"
 }
 
-export { API_ID_URL, API_URL, dataValid, processStatus, getBodyData }
+export { API_ID_URL, API_URL, dataValid, processStatus, getBodyData, getId }

@@ -4,14 +4,15 @@ import HttpError from "../errors/HttpError";
 import { API_ID_URL, API_URL, processStatus } from "../utils/utils";
 import UserController from "../controller/UserController";
 import UserService from "../services/user.service";
-import UserRoute from "../controller/UserRoute";
+import UserRoute from "../controller/UserRepo";
 
 const route = (processPort: number) => {
-    const UserRoutes = cluster.isPrimary 
+    const UserRoutes = cluster.isPrimary
         ? new UserController([]) 
         : new UserController([])
-    const userService = new UserService(UserRoutes);
-    const userCtrl = new UserRoute(userService)
+        
+    // const userService = new UserService(UserRoutes);
+    // const userCtrl = new UserRoute(userService)
     const getProcessStatus = processStatus();
 
     return async (req: IncomingMessage, res: ServerResponse<IncomingMessage>) => {

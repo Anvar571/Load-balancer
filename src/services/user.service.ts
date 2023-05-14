@@ -1,6 +1,6 @@
 import {validate} from "uuid"
 import HttpError from "../errors/HttpError";
-import { IUser, IUserCtrl } from "../controller/UserController";
+import { IUser, IUserCtrl } from "../types/type";
 import { dataValid } from "../utils/utils";
 
 class UserService {

@@ -1,20 +1,6 @@
 import { v4 as uuidv4 } from "uuid"
 import HttpError from "../errors/HttpError"
-
-export interface IUserCtrl {
-    getAllUser(): Promise<IUser[]>;
-    getOneUser(id: string): Promise<IUser | undefined>;
-    create(user: IUser): Promise<IUser>;
-    delete(id: string): Promise<string>;
-    update(id: string, data: IUser): Promise<IUser>
-}
-
-export interface IUser {
-    id?: string,
-    username: string,
-    age: number,
-    hobbies: []
-}
+import {IUserCtrl, IUser} from "../types/type"
 
 class UserController implements IUserCtrl {
     constructor(private users: IUser[]) { }
