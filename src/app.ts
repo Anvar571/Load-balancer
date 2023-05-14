@@ -5,13 +5,13 @@ import balancer from "./balancer/balancer";
 
 class Application {
     private port: number
-    private CLUSTER_MODE: string = String(process.env.CLUSTER_MODE)
+    private CLUSTER_MODE: string
     private processPort: number;
 
     constructor(port: number) {
         this.port = port
+        this.CLUSTER_MODE =  String(process.env.CLUSTER_MODE)
         this.processPort = Number(cluster.isPrimary ? this.port : process.env.workerPort)
-
     }
 
     private isBalancer() {
@@ -19,16 +19,13 @@ class Application {
     }
 
     public listen() {
-        const server = createServer(this.isBalancer() ? 
-            balancer(this.processPort) 
-            : route(this.processPort)
+        const server = createServer( route(this.processPort)
         )
 
         server.listen(this.processPort, () => {
             console.log(`Server #${process.pid} running is on port ${this.processPort}`);
         })
     }
-
 }
 
 export default Application

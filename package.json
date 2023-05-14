@@ -2,7 +2,7 @@
   "name": "load-balancer",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./src/server.ts",
   "scripts": {
     "start:dev": "cross-env NODE_ENV=development NODE_NO_WARNING=1 nodemon src/server.ts",
     "start:prod": "cross-env NODE_ENV=production pnpm run build && node ./dist/main.js",

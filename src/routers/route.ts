@@ -9,8 +9,8 @@ import UserRoute from "../controller/UserRepo";
 const route = (processPort: number) => {
     const UserRoutes = cluster.isPrimary
         ? new UserController([]) 
-        : new UserController([])
-        
+        : new UserController([]);
+    
     // const userService = new UserService(UserRoutes);
     // const userCtrl = new UserRoute(userService)
     const getProcessStatus = processStatus();
@@ -21,14 +21,12 @@ const route = (processPort: number) => {
         try {
             const { method, url } = req
 
-            console.log(`Executing request: ${method} ${url} -- ${getProcessStatus} ${process.pid} on port ${processPort}`);
+            console.log(`Executing request: ${method} ${url} -- ${getProcessStatus} #${process.pid} on port ${processPort}`);
 
             if (!url?.match(API_URL) && !url?.match(API_ID_URL)){
                 throw HttpError.notFound(`Invalid inpoint url ${url} method ${method}`)
             }
 
-            console.log(method, url);
-            
             switch(method){
                 case "":
                     
