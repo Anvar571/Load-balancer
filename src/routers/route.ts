@@ -9,11 +9,8 @@ import UserRepo from "../controller/UserRepo";
 import UserController from "../controller/User.ctrl";
 
 const route = (processPort: number) => {
-    const UserRoutes = cluster.isPrimary
-        ? new UserAddation() 
-        : new UserRepo([]);
+    const userService = new UserService(new UserRepo([]));
     
-    const userService = new UserService(UserRoutes);
     const userCtrl = new UserController(userService)
     const getProcessStatus = processStatus();
 
@@ -31,7 +28,7 @@ const route = (processPort: number) => {
 
             switch(method){
                 case METHODS.GET:
-                    await userCtrl.getAll(req)
+                    await userCtrl.getAll(req, res)
                     break;
                 case METHODS.POST:
                     await userCtrl.create(req, res)

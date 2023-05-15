@@ -8,17 +8,18 @@ const getId =(url: string) => {
     return id ? id[1] : null
 }
 
-async function getBodyData(req: IncomingMessage) {
+async function getBodyData(req: IncomingMessage): Promise<any> {
     try {
         const buffer: Uint8Array[] = []
 
         req.on("data", (data: Uint8Array) => {
             buffer.push(data)
-        }).on("end", () => {
+        });
+
+        req.on("end", () => {
             const body = Buffer.concat(buffer).toString().trim();
+            
             return body ? JSON.parse(body) : {}
-        }).on("error", (err) => {
-            throw new Error(err.message)
         })
 
     } catch (error: any) {

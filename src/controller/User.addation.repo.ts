@@ -1,42 +1,45 @@
+import { MessageResponse, getAllMessage, Message } from "../utils/message";
 import HttpError from "../errors/HttpError";
 import { IUser, IUserRepo } from "../types/type";
-import { v4 as uuidv4 } from "uuid"
 
 // implement IUserRepo
 class UserAddation implements IUserRepo {
-    constructor() { }
+    constructor() {}
 
-    async getAll(): Promise<IUser[]> {
-        process.send()
+    async getAll(): Promise<IUser[]> { 
+        return new Promise((res, rej) => {
+            process.send(getAllMessage());
+            process.once(Message, this.handleResponse<IUser[]>(res, rej))
+        })
     }
 
     async getOne(id: string): Promise<IUser> {
-        const user = this.users.find((user) => user.id === id);
-        if (!user) throw HttpError.notFound("User is not defined")
-
-        return user
+        
     }
 
     async create(user: IUser): Promise<IUser> {
-        const newUser = { ...user, id: uuidv4() }
-        this.users.push(newUser)
-        return newUser
+        
     }
 
     async delete(id: string): Promise<string>{
-        const findUser = this.users.find((user) => user.id === id);
-        if (!findUser) throw HttpError.notFound("User is not defined")
-        this.users.splice(this.users.indexOf(findUser), 1);
-        return "User deleted success"
+        
     }
 
     async update(id: string, data: IUser): Promise<IUser>{
-        const findUser = this.users.find((user) => user.id === id);
-        if (!findUser) throw HttpError.notFound("User is not defined");
+        
+    }
 
-        const updateUser = {...data, id: uuidv4()}
-        this.users.splice(this.users.indexOf(findUser), 1, updateUser)
-        return updateUser
+    private handleResponse<T>(
+        resolve: (value: T | PromiseLike<T>) => void,
+        reject: (reason?: any) => void
+    ) {
+        return (response: MessageResponse<T>) => {
+            if (response.data){
+                resolve(response.data)
+            }else {
+                reject(HttpError.notFound(response.message))
+            }
+        }
     }
 }
 

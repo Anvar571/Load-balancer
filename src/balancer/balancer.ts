@@ -39,8 +39,8 @@ const balancer = (port: number) => {
                 method: req.method,
                 headers: req.headers,
                 port
-            }, (response) => {
-                res.statusCode = response.statusCode
+            }, (response) => {  
+                res.statusCode = response.statusCode || 404;
                 res.setHeader("Content-Type", "application/json");
                 response.pipe(res)
             }

@@ -1,12 +1,13 @@
 import {IncomingMessage, ServerResponse} from "http"
 import { getBodyData, getId } from "../utils/utils";
-import { Handler, HttpCode, IUserController, IUserService } from "../types/type";
+import { HttpCode, IUserController, IUserService } from "../types/type";
 
 class UserController implements IUserController {
     constructor(private userService: IUserService){}
 
-    async getAll(req: IncomingMessage){
-        const users = getBodyData(req)
+    async getAll(_: IncomingMessage, res: ServerResponse<IncomingMessage>){
+        const users = await this.userService.getAll();
+        this.sendResponse(res, users);
     }
     
     async getOne(req: IncomingMessage, res: ServerResponse<IncomingMessage>) {
@@ -17,8 +18,16 @@ class UserController implements IUserController {
 
     async create(req: IncomingMessage, res: ServerResponse<IncomingMessage>){
         const body = await getBodyData(req);
-        const newUser = await this.userService.create(body);
-        this.sendResponse(res, newUser, HttpCode.CREATE);
+        
+        console.log(body);
+        
+        if (body){
+            const newUser = await this.userService.create(body);
+            this.sendResponse(res, newUser, HttpCode.CREATE);
+        }else {
+            this.sendResponse(res, "Some Error", HttpCode.BAD_REQUEST)
+        }
+
     };
 
     async delete(req: IncomingMessage, res: ServerResponse<IncomingMessage>){
