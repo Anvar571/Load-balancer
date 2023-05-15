@@ -19,7 +19,7 @@ class Application {
     }
 
     public listen() {
-        const server = createServer( route(this.processPort)
+        const server = createServer(route(this.processPort)
         )
 
         server.listen(this.processPort, () => {

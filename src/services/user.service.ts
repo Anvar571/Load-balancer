@@ -1,41 +1,42 @@
 import {validate} from "uuid"
 import HttpError from "../errors/HttpError";
-import { IUser, IUserCtrl } from "../types/type";
+import { IUser, IUserRepo, IUserService } from "../types/type";
 import { dataValid } from "../utils/utils";
 
-class UserService {
-    constructor(private userCtrl: IUserCtrl){}
+// implement with userservice
+class UserService implements IUserService {
+    constructor(private userRepo: IUserRepo){}
 
-    async getAllUser(){
-        return this.userCtrl.getAllUser();
+    async getAll(){
+        return this.userRepo.getAll();
     }
 
-    async getOneUser(id: string){
+    async getOne(id: string){
         if (!validate(id)){
             throw HttpError.badReq("This id invalid")
         }
-        return this.userCtrl.getOneUser(id);
+        return this.userRepo.getOne(id);
     }
 
-    async create(data: IUser){
+    async create(data: any): Promise<IUser>{
         if (!dataValid(data)){
             throw HttpError.badReq("User data invalid")
         }
-        return this.userCtrl.create(data)
+        return this.userRepo.create(data)
     }
 
-    async deleteUser(id: string){
+    async delete(id: string){
         if (!validate(id)){
             throw HttpError.badReq("This id invalid")
         }
-        return this.userCtrl.delete(id);
+        return this.userRepo.delete(id);
     }
 
-    async updateUser(id: string, data: IUser){
+    async update(id: string, data: any){
         if (!validate(id)){
             throw HttpError.badReq("This id invalid")
         }
-        return this.userCtrl.update(id, data);
+        return this.userRepo.update(id, data);
     }
 }   
 

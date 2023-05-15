@@ -1,15 +1,16 @@
+import HttpError from "../errors/HttpError";
+import { IUser, IUserRepo } from "../types/type";
 import { v4 as uuidv4 } from "uuid"
-import HttpError from "../errors/HttpError"
-import {IUserCtrl, IUser} from "../types/type"
 
-class UserController implements IUserCtrl {
-    constructor(private users: IUser[]) { }
+// implement IUserRepo
+class UserAddation implements IUserRepo {
+    constructor() { }
 
-    async getAllUser(): Promise<IUser[]> {
-        return this.users
+    async getAll(): Promise<IUser[]> {
+        process.send()
     }
 
-    async getOneUser(id: string): Promise<IUser | undefined> {
+    async getOne(id: string): Promise<IUser> {
         const user = this.users.find((user) => user.id === id);
         if (!user) throw HttpError.notFound("User is not defined")
 
@@ -39,4 +40,4 @@ class UserController implements IUserCtrl {
     }
 }
 
-export default UserController
+export default UserAddation

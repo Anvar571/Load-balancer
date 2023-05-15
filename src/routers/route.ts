@@ -1,18 +1,20 @@
 import { ServerResponse, IncomingMessage } from "http";
 import cluster from "cluster";
 import HttpError from "../errors/HttpError";
-import { API_ID_URL, API_URL, processStatus } from "../utils/utils";
-import UserController from "../controller/UserController";
+import { processStatus } from "../utils/utils";
 import UserService from "../services/user.service";
-import UserRoute from "../controller/UserRepo";
+import {API_ID_URL, API_URL, METHODS} from "./constants"
+import UserAddation from "../controller/User.addation.repo";
+import UserRepo from "../controller/UserRepo";
+import UserController from "../controller/User.ctrl";
 
 const route = (processPort: number) => {
     const UserRoutes = cluster.isPrimary
-        ? new UserController([]) 
-        : new UserController([]);
+        ? new UserAddation() 
+        : new UserRepo([]);
     
-    // const userService = new UserService(UserRoutes);
-    // const userCtrl = new UserRoute(userService)
+    const userService = new UserService(UserRoutes);
+    const userCtrl = new UserController(userService)
     const getProcessStatus = processStatus();
 
     return async (req: IncomingMessage, res: ServerResponse<IncomingMessage>) => {
@@ -28,8 +30,18 @@ const route = (processPort: number) => {
             }
 
             switch(method){
-                case "":
-                    
+                case METHODS.GET:
+                    await userCtrl.getAll(req)
+                    break;
+                case METHODS.POST:
+                    await userCtrl.create(req, res)
+                    break;
+                case METHODS.DELETE:
+                    await userCtrl.delete(req, res);
+                    break;
+                case METHODS.PUT:
+                    await userCtrl.update(req, res);
+                    break
                 default:
                     throw HttpError.internalError()
             }
