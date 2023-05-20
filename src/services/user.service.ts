@@ -4,6 +4,9 @@ import { IUser, IUserRepo, IUserService } from "../types/type";
 import { dataValid } from "../utils/utils";
 
 // implement with userservice
+/**
+ * Ma'lumotlarni validatsiya qilish uchun repo
+ */
 class UserService implements IUserService {
     constructor(private userRepo: IUserRepo){}
 
@@ -18,10 +21,11 @@ class UserService implements IUserService {
         return this.userRepo.getOne(id);
     }
 
-    async create(data: any): Promise<IUser>{
-        if (!dataValid(data)){
-            throw HttpError.badReq("User data invalid")
+    async create(data: IUser): Promise<IUser>{
+        if (!dataValid(data)) {
+            throw HttpError.badReq("Sent data invalid");
         }
+        
         return this.userRepo.create(data)
     }
 

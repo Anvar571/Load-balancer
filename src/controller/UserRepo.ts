@@ -2,7 +2,10 @@ import { v4 as uuidv4 } from "uuid"
 import HttpError from "../errors/HttpError"
 import { IUser, IUserRepo} from "../types/type"
 
-// implement IUserRepo
+/**
+ * Dbga ma'lmotlarni yozib uchun ishlatiladi
+ */
+
 class UserRepo implements IUserRepo {
     constructor(private users: IUser[]) { }
 
@@ -17,9 +20,13 @@ class UserRepo implements IUserRepo {
         return user
     }
 
-    async create(user: IUser): Promise<IUser> {
+    async create(user: IUser): Promise<any> {
         const newUser = { ...user, id: uuidv4() }
-        this.users.push(newUser)
+        
+        console.log(newUser, this.users);
+        
+        this.users.push(newUser);
+
         return newUser
     }
 

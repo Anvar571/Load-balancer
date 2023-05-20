@@ -10,16 +10,22 @@ const getId =(url: string) => {
 
 async function getBodyData(req: IncomingMessage): Promise<any> {
     try {
-        const buffer: Uint8Array[] = []
+        return new Promise((res, rej) => {
+            const buffer: Uint8Array[] = []
+    
+            req.on("data", (data: Uint8Array) => {
+                buffer.push(data)
+            });
+    
+            req.on("end", () => {
+                const body = Buffer.concat(buffer).toString().trim();
+                try {
+                    res(body ? JSON.parse(body): {})
+                } catch (error) {
+                    rej(HttpError.badReq("Some Error"))
+                }
+            })
 
-        req.on("data", (data: Uint8Array) => {
-            buffer.push(data)
-        });
-
-        req.on("end", () => {
-            const body = Buffer.concat(buffer).toString().trim();
-            
-            return body ? JSON.parse(body) : {}
         })
 
     } catch (error: any) {
@@ -29,10 +35,10 @@ async function getBodyData(req: IncomingMessage): Promise<any> {
 
 function dataValid(data: IUser) {
     return (
-        typeof data.username == "string" &&
-        typeof data.age == "number" &&
+        typeof data.username === "string" &&
+        typeof data.age === "number" &&
         Array.isArray(data.hobbies) &&
-        data.hobbies.every((hoobie) => hoobie == "string")
+        data.hobbies.every((hoobie) => typeof hoobie == "string")
     )
 }
 

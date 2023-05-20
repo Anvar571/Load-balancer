@@ -1,5 +1,5 @@
 const API_URL = /^\/api\/users\/?$/;
-const API_ID_URL = /^\api\/users\/[^\/]+$/;
+const API_ID_URL = /^\/api\/users\/[^\/]+$/;
 
 const METHODS = {
     GET: "GET",
