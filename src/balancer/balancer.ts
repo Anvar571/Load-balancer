@@ -3,6 +3,7 @@ import { IncomingMessage, request, ServerResponse } from "http"
 import UserRepo from "../controller/UserRepo";
 import cluster from "cluster";
 import HttpError from "../errors/HttpError";
+import {MESSAGE} from "../utils/message"
 
 const balancer = (port: number) => {
     const core = os.cpus().length
@@ -15,10 +16,12 @@ const balancer = (port: number) => {
 
         const worker  = cluster.fork({workerPort});
 
-        worker.on("message", async (message: Message) => {
-            const userRepoMethod = userRepo[message.action];
+        worker.on("message", async (message: MESSAGE) => {
+            const userRepoMethod = userRepo[message.action];    
             const args = "args" in message ? message.args : [];
-            userRepoMethod.apply(userRepo, args).then((data: Awaited<ReturnType<typeof userRepoMethod>>) => {
+
+            userRepoMethod.apply(userRepo, args)
+            .then((data: Awaited<ReturnType<typeof userRepoMethod>>) => {
                 worker.send({data})
             }).catch((err: HttpError) => {
                 worker.send({status: err.status, message: err.message})

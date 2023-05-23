@@ -23,7 +23,7 @@ class UserService implements IUserService {
 
     async create(data: IUser): Promise<IUser>{
         if (!dataValid(data)) {
-            throw HttpError.badReq("Sent data invalid");
+            throw HttpError.badReq("Invalid user data");
         }
         
         return this.userRepo.create(data)

@@ -4,6 +4,8 @@ import { IUser, IUserRepo} from "../types/type"
 
 /**
  * Dbga ma'lmotlarni yozib uchun ishlatiladi
+ * bu yerda hozircha oddiy filega yoziladi
+ * kiyin buni biror databasega yozish mumkin bo'ladi
  */
 
 class UserRepo implements IUserRepo {
@@ -22,9 +24,7 @@ class UserRepo implements IUserRepo {
 
     async create(user: IUser): Promise<any> {
         const newUser = { ...user, id: uuidv4() }
-        
-        console.log(newUser, this.users);
-        
+
         this.users.push(newUser);
 
         return newUser

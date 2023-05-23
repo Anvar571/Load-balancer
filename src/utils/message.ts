@@ -14,7 +14,7 @@ export const createMessage = (data: IUser) => ({
 
 export type CreateMessage = ReturnType<typeof createMessage>
 
-export const getOneMessage = (id: string) =>  ({
+export const getOneMessage = (id: string) => ({
     action: "getOne",
     args: [id]
 })
@@ -34,7 +34,12 @@ export const updateMessage = (id: string, user: IUser) => ({
 
 export type UpdateMessage = ReturnType<typeof updateMessage>
 
-export type Message = | GetAllMessage | GetOneMessage | CreateMessage |DeleteMessage |UpdateMessage;
+export type MESSAGE =
+    | GetAllMessage
+    | GetOneMessage
+    | CreateMessage
+    | DeleteMessage
+    | UpdateMessage;
 
 export type MessageValidResponse<T> = {
     data: T

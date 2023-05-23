@@ -1,8 +1,6 @@
 import { IncomingMessage, ServerResponse } from "http"
 import { getBodyData, getId } from "../utils/utils";
 import { HttpCode, IUserController, IUserService } from "../types/type";
-import UserService from "../services/user.service";
-
 
 /**
  * Ma'lumotlarni olamiz

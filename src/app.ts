@@ -5,21 +5,21 @@ import balancer from "./balancer/balancer";
 
 class Application {
     private port: number
-    private CLUSTER_MODE: string
+    private CLUSTER_MODE = String(process.env.CLUSTER_MODE)
     private processPort: number;
 
     constructor(port: number) {
         this.port = port
-        this.CLUSTER_MODE =  String(process.env.CLUSTER_MODE)
         this.processPort = Number(cluster.isPrimary ? this.port : process.env.workerPort)
+
     }
 
     private isBalancer() {
-        return this.CLUSTER_MODE === "cluster" || cluster.isPrimary
+        return this.CLUSTER_MODE === "cluster" && cluster.isPrimary
     }
 
     public listen() {
-        const server = createServer(route(this.processPort)
+        const server = createServer(this.isBalancer() ? balancer(this.processPort): route(this.processPort)
         )
 
         server.listen(this.processPort, () => {
