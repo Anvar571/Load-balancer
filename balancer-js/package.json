@@ -8,6 +8,7 @@
         "start:dev": "cross-env webpack --mode=development && nodemon src/index.js",
         "start:prod": "cross-env webpack --mode=production && node dist/bundle.js",
         "start:multi": "cross-env webpack --mode=development && nodemon src/cluster/balancer.js",
+        "start:multi:prod": "cross-env webpack --mode=development && node src/cluster/balancer.js",
         "test": "mocha src/test/test.js"
     },
     "author": "Darya Zakhar",
