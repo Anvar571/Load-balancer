@@ -19,7 +19,7 @@
     ]
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "coverage", "*.test.ts"],
+  "exclude": ["node_modules", "coverage", "*.test.ts"],
   "plugins": ["prettier", "@typescript-eslint", "jest"],
   "env": {
     "jest/globals": true,
