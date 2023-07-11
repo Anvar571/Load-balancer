@@ -9,6 +9,7 @@ import { config } from "../config/config.js";
 const { PORT } = config;
 const numCPUs = os.cpus().length;
 
+// qo'shimcha port ochib beradi 
 function workerPort() {
   let currentPort = +PORT;
   const port = +PORT;
@@ -23,7 +24,9 @@ function workerPort() {
   };
 }
 
+// oldingi qiymatni saqlab qolgan holatda
 const getWorkerPort = workerPort();
+
 
 function isDataUpdated(masterData, workerData) {
   return JSON.stringify(masterData) !== JSON.stringify(workerData);

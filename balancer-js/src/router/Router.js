@@ -16,7 +16,7 @@ export default class Router {
         if (handler) {
             await this.requestsWithBody(req);
 
-            res.setHeader("content-type", "application/json");
+            res.setHeader('Content-Type', 'application/json');
             return handler(req, res);
         } else {
             res.statusCode = 404;

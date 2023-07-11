@@ -1,32 +1,13 @@
-process.USERS= [
-    {
-        id: 1,
-        username: "anvar",
-    },
-    {
-        id: 2,
-        username: "anvar",
-    },
-    {
-        id: 3,
-        username: "anvar",
-    },
-    {
-        id: 4,
-        username: "anvar",
-    },
-    {
-        id: 5,
-        username: "anvar",
-    },
-];
+process.USERS = [];
 
-const getAllUSer =  async () => process.USERS;
+const getAllUSer = async () => process.USERS;
 
-const getOneUser =  async(userId) => process.USERS.find((user) => user.id == userId);
+const getOneUser = async (userId) => process.USERS.find((user) => user.id == userId);
 
 const addUser = async (userData) => {
-    return process.USERS.push(userData);
+    process.USERS.push(userData);
+
+    return userData;
 }
 
 const updateUser = async (id, data) => {
@@ -35,12 +16,14 @@ const updateUser = async (id, data) => {
     return Object.assign(user, data);
 }
 
-const deleteOne = async (id) => {
-    const user = process.USERS.findIndex((user) => user.id === id);
+const deleteOne = async (userId) => {
+    let deletedUser;
+    const userIndexToDelete = process.USERS.findIndex((user) => user.id === userId);
 
-    if (user > -1){
-        return process.USER.splice(user, 1);
+    if (userIndexToDelete > -1) {
+        deletedUser = process.USERS.splice(userIndexToDelete, 1)[0];
     }
+    return deletedUser;
 }
 
 export default {
